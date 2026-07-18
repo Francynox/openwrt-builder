@@ -1,0 +1,59 @@
+[build-system]
+requires = ["setuptools>=83.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "openwrt-builder"
+version = "1.0.0-rc2"
+description = "A containerized build system for OpenWrt based on the ImageBuilder SDK"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+dependencies = [
+    "pyyaml>=6.0.3",
+    "requests>=2.34.2",
+    "tqdm>=4.69.0",
+]
+
+[project.scripts]
+openwrt-builder = "openwrt_builder.cli:main"
+
+[dependency-groups]
+dev = [
+    "build>=1.5.0",
+    "mypy>=2.3.0",
+    "pytest>=9.1.1",
+    "ruff>=0.15.22",
+    "twine>=6.2.0",
+    "types-pyyaml>=6.0.12.20260518",
+    "types-requests>=2.33.0.20260712",
+    "types-tqdm>=4.68.0.20260608",
+    "vulture>=2.16",
+]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools]
+packages = ["openwrt_builder"]
+
+[tool.setuptools.package-data]
+openwrt_builder = ["Dockerfile", "docker-compose.yml", ".dockerignore"]
+
+[tool.vulture]
+min_confidence = 80
+paths = ["openwrt_builder"]
+

@@ -1,0 +1,10 @@
+services:
+  builder:
+    build: .
+    image: openwrt-builder:latest
+    volumes:
+      - ${WORKSPACE_ROOT:-..}:/app
+      - .:/opt/openwrt_builder:ro
+    working_dir: /app
+    command: /bin/bash
+    init: true

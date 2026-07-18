@@ -1,0 +1,22 @@
+name: example
+target: x86
+arch: "64"
+image_profile: generic
+version: "25.12.5"
+
+packages:
+  - curl
+
+mod_partsize: true
+partition_size:
+  kernel: 64
+  root: 512
+
+qemu: true
+
+layers:
+  - layers/example
+
+profiles:
+  demo:
+  demo2:

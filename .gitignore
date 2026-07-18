@@ -1,0 +1,22 @@
+# Build artifacts
+build/
+output/
+dist/
+*.egg-info/
+
+# Direnv
+.direnv
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+.venv
+
+# Local IDE configuration
+.vscode/
+.idea/

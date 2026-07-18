@@ -1,0 +1,85 @@
+# Config name — used for output directory naming.
+# If omitted, the config filename (without .yaml) is used.
+name: example
+
+# OpenWrt target platform. Find yours at: https://openwrt.org/toh/start
+# Common values: x86, ramips, ath79, mediatek, bcm27xx
+target: x86
+
+# Target architecture. Must match the target above.
+# Common values: 64, mt7621, nand, generic, filogic, bcm2711
+arch: "64"
+
+# ImageBuilder profile name — identifies your specific device model.
+# Use 'generic' for x86. For routers, find your profile name at:
+# https://firmware-selector.openwrt.org
+image_profile: generic
+
+# OpenWrt version to build. Options:
+#   - Specific release: "25.12.5", "24.10.0-rc1"
+#   - "latest" — auto-resolves to the newest stable release
+#   - "snapshot" — uses the latest development snapshot (re-downloaded each build)
+version: "25.12.5"
+
+# Optional tag appended to output firmware filenames.
+# Useful for distinguishing custom builds.
+image_tag: my-custom-build
+
+# Extra packages to inject into the ImageBuilder before compilation.
+# Supports local paths (relative to workspace root, globs OK) and HTTPS URLs.
+# Remember to also list the package name in 'packages' below.
+extra_packages:
+  - ./path/for/my-package-1.apk
+  - https://myrepo.com/packages/my-package-2.apk
+
+# Packages to include in the firmware image.
+# Use package names as they appear in the OpenWrt package feed.
+# Prefix with '-' to exclude a default package (e.g., '-ppp').
+packages:
+  - curl
+  - my-package-1
+  - my-package-2
+
+# ATTENTION: Partition size options apply to targets with disk images (e.g., x86, Raspberry Pi) ONLY.
+# Enable custom partition sizes:
+mod_partsize: false
+partition_size:
+  kernel: 64 # Kernel partition size in MB
+  root: 512 # Root filesystem partition size in MB
+
+# Generate QEMU-compatible virtual machine images (qcow2) from the build output.
+# Only meaningful for targets producing disk images (.img.gz), such as x86 or Raspberry Pi.
+qemu: false
+
+# Filesystem overlay layers.
+# Each layer is a directory path (relative to workspace root) containing files
+# that will be merged into the firmware root filesystem.
+#
+# Global layers are applied to ALL profiles. Layers are merged in order —
+# later layers override earlier ones if files overlap.
+layers:
+  - layers/global
+  - layers/my-global-conf/main.conf
+
+# File permission overrides applied after all layers are merged.
+# Global permissions apply to ALL profiles.
+#
+# 'path' is relative to the merged filesystem root.
+# 'mode' must be a quoted octal string (YAML interprets bare numbers differently).
+permissions:
+  - path: etc/dummy-file
+    mode: "600"
+
+# Build profiles — each produces a separate firmware image in output/<name>/<profile>/.
+#
+# Profiles can define their own layers and permissions, which merge with
+# (and override) the global ones. Empty profiles are valid — they inherit
+# all global settings.
+profiles:
+  demo:
+    layers:
+      - layers/example
+    permissions:
+      - path: etc/demo-file-profile
+        mode: "644"
+  demo2:
