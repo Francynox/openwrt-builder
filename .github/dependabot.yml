@@ -5,7 +5,7 @@ updates:
     schedule:
       interval: "weekly"
 
-  - package-ecosystem: "pip"
+  - package-ecosystem: "uv"
     directory: "/"
     schedule:
       interval: "weekly"
@@ -13,6 +13,8 @@ updates:
       default-days: 7
 
   - package-ecosystem: "docker"
-    directory: "/builder"
+    directory: "/openwrt_builder"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 0
