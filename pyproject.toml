@@ -57,3 +57,6 @@ openwrt_builder = ["Dockerfile", "docker-compose.yml", ".dockerignore"]
 min_confidence = 80
 paths = ["openwrt_builder"]
 
+[tool.uv]
+exclude-newer = "7 days"
+
